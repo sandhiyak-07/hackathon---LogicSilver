@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text to Speech</title>
+</head>
+<body>
+    <h1>Text to Speech Conversion</h1>
+    <textarea id="inputText" rows="4" cols="50"></textarea><br>
+    <button onclick="convertToSpeech()">Convert to Speech</button>
+
+    <script>
+        function convertToSpeech() {
+
+            var text = document.getElementById("inputText").value;
+           
+            fetch('/convert_text_to_speech', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ text: text })
+            })
+            .then(response => {
+                alert(response.status);
+                if (response.ok) {
+                    alert('Speech generated successfully!'); // Alert the user
+                } else {
+                    alert('Failed to generate speech. Please try again.'); // Alert the user in case of failure
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred. Please try again.'); // Alert the user if an error occurs
+            });
+        }
+    </script>
+</body>
+</html>
